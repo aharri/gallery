@@ -104,6 +104,22 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:template match="/">
 <html>
 	<head>
+		<title>
+			<xsl:choose>
+				<xsl:when test="/root/statusline/directories/name != ''">
+					<xsl:for-each select="/root/statusline/directories">
+						<xsl:if test="position() &gt; 1">
+							<xsl:text> / </xsl:text>
+						</xsl:if>
+						<xsl:value-of select="name"/>
+					</xsl:for-each>
+				</xsl:when>
+				<xsl:otherwise>
+					Photo Gallery
+					<xsl:value-of select="/root/program_version"/> by <xsl:value-of select="/root/author"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="author" content="Antti Harri" />
 		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.3.1/build/reset/reset-min.css"/>
@@ -149,6 +165,10 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 				</xsl:choose>
 			</xsl:otherwise>
 		</xsl:choose>
+		<hr/>
+		<a href="https://github.com/aharri/gallery">Photo Gallery</a>
+		<xsl:text> </xsl:text>
+		<xsl:value-of select="/root/program_version"/> by <xsl:value-of select="/root/author"/>
 	</body>
 </html>
 </xsl:template>
