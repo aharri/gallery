@@ -1,0 +1,13 @@
+The purpose of this yet another PHP photo gallery
+is to be small but usable. Just drop the folder inside
+your webroot and configure data and tmp directories.
+The tmp directory needs to be writable by the web
+user. Gallery will automatically handle thumbnails
+once you put some images inside your data directory.
+
+Requirements:
+- PHP-gd
+
+TODO:
+- A proper README ( :-P )
+- Remove duplicate <hr> tags in some cases
