@@ -104,12 +104,6 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:template match="/">
 <html>
 	<head>
-<!--
-		<base>
-			<xsl:attribute name="href"><xsl:value-of select="/root/config/docroot" /></xsl:attribute>
-		</base>
--->
-		<title>Photo Gallery <xsl:value-of select="/root/program_version"/> by <xsl:value-of select="/root/author"/></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="author" content="Antti Harri" />
 		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.3.1/build/reset/reset-min.css"/>
