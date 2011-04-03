@@ -6,9 +6,5 @@ user. Gallery will automatically handle thumbnails
 once you put some images inside your data directory.
 
 Requirements:
-- PHP-gd
-
-TODO:
-- A proper README ( :-P )
-- Remove duplicate <hr> tags in some cases
-- Put license information inside files as well
+- Web server such as Lighttpd or Apache
+- PHP5-gd

@@ -1,10 +1,6 @@
 <?php
 
 /*
- * $Id: config.sample.php,v 1.4 2007/10/05 20:47:31 iku Exp $
- *
- * Copyright (c) 2007 Antti Harri <iku@openbsd.fi>
- *
  * Don't append slashes for directories,
  * although they don't harm anything it just
  * looks ugly if the variable happens to be

@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- * $Id: site.xsl,v 1.8 2007/10/05 20:47:34 iku Exp $
  *
  * Copyright (c) 2007 Antti Harri <iku@openbsd.fi>
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *
 -->
 
@@ -17,88 +28,93 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	indent="yes"/>
 
 <xsl:template name="thumbnails">
-				<div id="thumbnails">
-					<xsl:for-each select="/root/thumbnails">
-						<div>
-							<a href="?{link}">
-								<img src="{thumbnail}" alt="{link}"/>
-							</a>
-							<p>
-								<xsl:value-of select="name"/>
-							</p>
-						</div>
-					</xsl:for-each>
-				</div> <!-- thumbnails -->
+	<xsl:if test="/root/thumbnails">
+		<hr/>
+		<div id="thumbnails">
+			<xsl:for-each select="/root/thumbnails">
+				<div>
+					<a href="?{link}">
+						<img src="{thumbnail}" alt="{link}"/>
+					</a>
+					<p>
+						<xsl:value-of select="name"/>
+					</p>
+				</div>
+			</xsl:for-each>
+		</div> <!-- thumbnails -->
+	</xsl:if>
 </xsl:template>
 
 <xsl:template name="viewimage">
-				<div id="viewimage">
-					<img src="{/root/showimage/image}" alt="{/root/showimage/description}"/>
-				</div> <!-- viewimage -->
+	<hr/>
+	<div id="viewimage">
+		<img src="{/root/showimage/image}" alt="{/root/showimage/description}"/>
+	</div> <!-- viewimage -->
 </xsl:template>
 
 <xsl:template name="login">
-				<xsl:if test="/root/info/loginfailed">
-					<p>Login failed.</p>
-				</xsl:if>
-				<form action="" method="post">
-					<fieldset>
-						<legend>Album needs authorization</legend>
-						<p>
-							<label for="user">User:</label><br/>
-							<input id="user" type="text" name="user" />
-						</p>
-						<p>
-							<label for="pass">Password:</label><br/>
-							<input id="pass" type="password" name="pass" />
-						</p>
-						<input type="submit" name="datasubmitted" value="Login" />
-					</fieldset>
-				</form>
+	<xsl:if test="/root/info/loginfailed">
+		<p>Login failed.</p>
+	</xsl:if>
+	<form action="" method="post">
+		<fieldset>
+			<legend>Album needs authorization</legend>
+			<p>
+				<label for="user">User:</label><br/>
+				<input id="user" type="text" name="user" />
+			</p>
+			<p>
+				<label for="pass">Password:</label><br/>
+				<input id="pass" type="password" name="pass" />
+			</p>
+			<input type="submit" name="datasubmitted" value="Login" />
+		</fieldset>
+	</form>
 </xsl:template>
 
 <xsl:template name="directories">
-		<xsl:if test="/root/directories">
-			<div id="directories">
-				<xsl:for-each select="/root/directories">
-					<div>
-						<xsl:if test="hilite">
-							<xsl:attribute name="class">hilited</xsl:attribute>
-						</xsl:if>
-						<a href="?{link}">
-							<xsl:value-of select="name"/>
-						</a>
-						<span>
-							<xsl:value-of select="time"/>
-						</span>
-					</div> <!-- directory box -->
-				</xsl:for-each>
-			</div> <!-- directories -->
-			<hr/>
-		</xsl:if>
+	<xsl:if test="/root/directories">
+		<hr/>
+		<div id="directories">
+			<xsl:for-each select="/root/directories">
+				<div>
+					<xsl:if test="hilite">
+						<xsl:attribute name="class">hilited</xsl:attribute>
+					</xsl:if>
+					<a href="?{link}">
+						<xsl:value-of select="name"/>
+					</a>
+					<span>
+						<xsl:value-of select="time"/>
+					</span>
+				</div> <!-- directory box -->
+			</xsl:for-each>
+		</div> <!-- directories -->
+	</xsl:if>
 </xsl:template>
 
 <xsl:template name="pagination">
-		<xsl:if test="/root/paging">
-			<ul id="paging">
-				<li>&lt;</li>
-				<xsl:for-each select="/root/paging">
-					<li>
-						<xsl:choose>
-							<xsl:when test="link">
-								<a href="?{link}">
-									<xsl:value-of select="name"/>
-								</a>
-							</xsl:when>
-							<xsl:otherwise>
+	<xsl:if test="/root/paging">
+		<hr/>
+		<ul id="paging">
+			<li>&lt;</li>
+			<xsl:for-each select="/root/paging">
+				<li>
+					<xsl:choose>
+						<xsl:when test="link">
+							<a href="?{link}">
 								<xsl:value-of select="name"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</li>
-				</xsl:for-each>
-				<li>&gt;</li>
-			</ul> <!-- paging -->
-		</xsl:if>
+							</a>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="name"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</li>
+			</xsl:for-each>
+			<li>&gt;</li>
+		</ul> <!-- paging -->
+	</xsl:if>
 </xsl:template>
 
 <xsl:template match="/">
@@ -140,7 +156,6 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 				</xsl:for-each>
 			</xsl:if>
 		</div>
-		<hr/>
 		<!-- statusline -->
 
 		<!-- Perhaps this could be converted into ul list -->
