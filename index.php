@@ -258,7 +258,7 @@ class gallery
 		if (empty($query))
 			return array('browse', '', null);
 
-		if (!validate::source_file($this->base, $this->images.'/'.urldecode($query))) {
+		if (!validate::source_file($this->images, $this->images.'/'.urldecode($query))) {
 			$_logger->log("not a valid source file '{$this->base}' '{$this->images}/{$query}'", 'error');
 			return false;
 		}
