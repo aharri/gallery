@@ -64,12 +64,9 @@ class validate
 			return false;
 
 		// Check that dir is contained in the base path
-/*		$dir1 = myRealPath($this->base).'/';
-		$dir2 = myRealPath($this->images.'/'.$dir2);*/
 		$dir1 = myRealPath($rootpath).'/';
 		$dir2 = myRealPath($dir).'/';
 
-//printf ("$dir1<br>$dir2");
 		if (strpos($dir2, $dir1) === 0)
 			return true;
 
@@ -85,27 +82,21 @@ class validate
 		if (!is_array($sacl)||!is_array($sacl_users))
 			return true;
 
-//printf("<br>$dir<br>");
-		$dir=myRealPath($dir).'/';
-//printf("<br>$dir<br>");
-
+		if (preg_match('#/$#', $dir) === false)
+			$dir .= '/';
 		foreach ($sacl as $protected_album => $privileged_user) {
-			$protected_album_rp=myRealPath($protected_album).'/';
-// echo($dir);
-// echo($protected_album);
-// echo("<br/>\n");
+			if (preg_match('#/$#', $protected_album) === false)
+				$protected_album .= '/';
 			/*
 			 * Album matches definitions, now we need to
 			 * check is user has authenticated himself to us.
 			 */
-			if (strpos($dir, $protected_album_rp) === 0) {
-// print($protected_album);
+			if (strpos($dir, $protected_album) === 0) {
 				if (!isset($_SESSION['authentications'][$protected_album]))
 					return false;
 				break;
 			}
 		}
-// die();
 		return true;
 	}
 	public static function login($dir, $user, $pass)

@@ -276,7 +276,7 @@ class gallery
 
 		if (is_file($this->images.'/'.$query)) {
 			$dir = (dirname($query)=='.')?'':dirname($query);
-			if (!validate::authenticate_dir($query))
+			if (!validate::authenticate_dir(dirname($query)))
 				return array('login', $dir, basename($query));
 			return array('image', $dir, basename($query));
 		}
