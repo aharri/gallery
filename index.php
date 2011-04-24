@@ -37,7 +37,7 @@ require_once('libs/class.validate.php');
 require_once('libs/class.acms_xml.php');
 require_once('libs/imagelibs/class.image.php');
 
-define ('VERSION', '1.5');
+define ('VERSION', '1.5-current');
 define ('AUTHOR', 'Antti Harri <iku@openbsd.fi>');
 
 class pager
