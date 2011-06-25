@@ -304,7 +304,7 @@ class gallery
 
 		while ($foo = readdir($handle))
 		{
-			if ($foo == '.' || $foo == '..' || $foo == 'CVS')
+			if ($foo == '.' || $foo == '..')
 				continue;
 			if (is_dir("$shadow_dir/$foo")) {
 				$stats = stat("$shadow_dir/$foo");
@@ -321,6 +321,7 @@ class gallery
 			}
 		}
 		sort($directories);
+		sort($files);
 		return array($directories, $files);
 	}
 
