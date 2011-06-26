@@ -111,7 +111,9 @@ class validate
 		foreach ($sacl as $protected_album => $privileged_user) {
 			$protected_album=myRealPath($protected_album).'/';
 			if (strpos($dir, $protected_album) === 0) {
-				if ($privileged_user==$user && $sacl_users[$privileged_user]==$pass)
+				if (isset($sacl_users[$privileged_user]['pw']) &&
+					$privileged_user==$user &&
+					$sacl_users[$privileged_user]['pw']==$pass)
 					return true;
 				break;
 			}

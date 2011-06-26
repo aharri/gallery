@@ -75,8 +75,8 @@ $sacl=array
 );
 $sacl_users=array
 (
-	'foouser'=>'barpassword',
-	'baruser'=>'quxpass',
+	'foouser'	=> array('pw'=>'barpassword',	'can_upload'=>false),
+	'baruser	=> array('pw'=>'quxpass',	'can_upload'=>false),
 );
 */
 ?>
