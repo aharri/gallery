@@ -334,6 +334,10 @@ class gallery
 		$xml->author=AUTHOR;
 		$xml->program_version=VERSION;
 
+		error_reporting(E_ALL);
+		ini_set('display_errors', 0);
+		ini_set('log_errors', 1);
+
 		if (!$this->load_configuration()) {
 			$_logger->log('Config failed!', 'error');
 			return false;
