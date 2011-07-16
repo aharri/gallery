@@ -30,7 +30,7 @@ class image
 {
 	private $file=null;
 	private $supported_types;
-	private $thumbnail_format='jpg';
+	private $thumbnail_format='jpeg';
 	private $thumbnail_dir='./thumbnails';
 	private $wmax=100;
 	private $hmax=100;
@@ -47,7 +47,7 @@ class image
 
 	public function __construct()
 	{
-		$this->supported_types = array('jpg', 'gif', 'png');
+		$this->supported_types = array('jpeg', 'jpg', 'gif', 'png');
 	}
 
 	/**
@@ -123,10 +123,17 @@ class image
 	public function set_thumbnail_format($format)
 	{
 		$format = strtolower($format);
-		if ($format != 'jpg' && $format != 'png')
-			return false;
-		$this->thumbnail_format = $format;
-		return true;
+		switch ($format)
+		{
+			case "jpeg":
+			case "jpg":
+			case "png":
+			case "gif":
+				$this->thumbnail_format = $format;
+				return true;
+			default:
+				return false;
+		}
 	}
 
 	/**
@@ -138,8 +145,6 @@ class image
 	 * Sets file.
 	 *
 	 * Validates and sets file to be processed.
-	 *
-	 * FIXME: Suffix handling.
 	 */
 	public function set_file($file)
 	{
@@ -148,16 +153,11 @@ class image
 			return false;
 		}
 
-		$suffix = strtolower(substr($file, -3, 3));
-		foreach ($this->supported_types as $current)
-		{
-			if ($suffix == $current)
-			{
-				$this->file = $file;
-				return true;
-			}
+		$suffix = pathinfo($file, PATHINFO_EXTENSION);
+		if (in_array($suffix, $this->supported_types)) {
+			$this->file = $file;
+			return true;
 		}
-
 		$this->file=null;
 		return false;
 	}
@@ -353,8 +353,6 @@ class image
 	 * speed things up. On error it will either
 	 * return false if no file has been set or
 	 * the original filename.
-	 *
-	 * FIXME: Suffix handling.
 	 */
 	function generate_thumb()
 	{
@@ -389,10 +387,11 @@ class image
 
 		// Create new image.
 		$cache_img = imagecreatetruecolor($width, $height);
-		$suffix = strtolower(substr($this->file, -3, 3));
+		$suffix = pathinfo($this->file, PATHINFO_EXTENSION);
 		switch ($suffix)
 		{
 			case "jpg":
+			case "jpeg":
 				$orig_img = imagecreatefromjpeg($this->file);
 			break;
 			case "png":
@@ -416,6 +415,7 @@ class image
 		switch ($this->thumbnail_format)
 		{
 			case "jpg":
+			case "jpeg":
 				$val = imagejpeg($cache_img, $cache_file, $jpg_quality);
 				break;
 			case "png":

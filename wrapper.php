@@ -20,7 +20,6 @@
 
 /*
  * TODO: Clean up the code.
- * FIXME: Suffix handling.
  */
 
 require_once('libs/class.validate.php');
@@ -30,7 +29,7 @@ if (empty($_SERVER['QUERY_STRING']))
 	die();
 
 $filename=urldecode(basename($_SERVER['QUERY_STRING']));
-$suffix=strtolower(substr($filename, strrpos($filename, '.')+1));
+$suffix=strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
 $dirname=dirname($_SERVER['QUERY_STRING']);
 $mode=$dirname;

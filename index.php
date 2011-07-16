@@ -129,7 +129,7 @@ class pager
 class logger_lite
 {
 	private $stuff='';
-	public function log($msg, $level)
+	public function log($msg, $level='info')
 	{
 		$this->stuff.="$level\t$msg\n";
 	}
@@ -293,7 +293,7 @@ class gallery
 		if (!$shadow_dir) {
 			$shadow_dir=$dirname;
 		}
-		$types = array('jpg', 'gif', 'png');
+		$types = array('jpeg', 'jpg', 'gif', 'png');
 
 		$directories=array();
 		$files=array();
@@ -475,6 +475,10 @@ class gallery
 				$img->set_thumbnail_dir($this->gallery_big.'/'.$dir);
 				$img->set_file($this->images.'/'.$dir.'/'.$file);
 				$thumbnail=$img->generate_thumb();
+				if ($thumbnail === FALSE) {
+					$_logger->log('Failed to create thumbnail', 'error');
+					break 1;
+				}
 				// FIXME error checking
 				$thumbnail=substr($thumbnail, strlen(IMGDST1));
 				$xml->showimage->image='wrapper.php?big'.$thumbnail;
