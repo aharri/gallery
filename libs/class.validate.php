@@ -115,7 +115,6 @@ class validate
 					$privileged_user==$user &&
 					$sacl_users[$privileged_user]['pw']==$pass)
 					return true;
-				break;
 			}
 		}
 		return false;

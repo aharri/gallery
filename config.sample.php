@@ -64,6 +64,12 @@
  * first match is checked!
  *
  * Restrictions will be applied recursively.
+ *
+ * You can have different credentials for different
+ * levels by defining the sublevels first, for example:
+ *
+ * 'album/sublevel' => 'userA',
+ * 'album' => 'userB'
  */
 
 /*
