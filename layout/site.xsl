@@ -102,7 +102,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 				<li>
 					<xsl:choose>
 						<xsl:when test="link">
-							<a href="?{link}">
+							<a href="?{link}" id="{lid}">
 								<xsl:value-of select="name"/>
 							</a>
 						</xsl:when>
@@ -141,6 +141,24 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.3.1/build/reset/reset-min.css"/>
 		<!--<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.3.0/build/base/base-min.css"/>-->
 		<link type="text/css" rel="stylesheet" href="layout/style.css" />
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			$(document).keydown(function(ev){
+				ev = ev||window.event;
+				var $kk = ev.which?ev.which:ev.keyCode;
+				var $prev = $("#link_previous").attr("href");
+				var $next = $("#link_next").attr("href");
+				if ($kk == 37) {
+					$(window.location).attr('href', $prev);
+					return false;
+				} else if ($kk == 39) {
+					$(window.location).attr('href', $next);
+					return false;
+				}
+			});
+		});
+		</script>
 	</head>
 
 	<body>

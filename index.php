@@ -100,6 +100,7 @@ class pager
 				if($start < 0) $start = 0;
 				$end = $this->page_count;
 			}
+			$paging['previous']->lid = 'link_previous';
 			$paging['previous']->name = 'previous';
 			if($this->page_num-1 > 0)
 			{
@@ -108,12 +109,14 @@ class pager
 			}
 			for($i = $start+1; $i < $end+1; $i++)
 			{
+				$paging[$i]->lid = 'link_'.$i;
 				$paging[$i]->name = $i;
 				if($this->page_num != $i)
 				{
 					$paging[$i]->link = $this->gen_url($i);
 				}
 			}
+			$paging['next']->lid = 'link_next';
 			$paging['next']->name = 'next';
 			if($this->page_num < $this->page_count)
 			{
@@ -458,6 +461,11 @@ class gallery
 
 					$xml->paging[$i]->name=$files[$i];
 					if ($files[$i]!=$files[$index]) {
+						if ($i == $index-1) {
+							$xml->paging[$i]->lid='link_previous';
+						} else {
+							$xml->paging[$i]->lid='link_next';
+						}
 						$xml->paging[$i]->link=$link;
 					}
 				}
