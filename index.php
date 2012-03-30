@@ -19,8 +19,8 @@
 
 /**
  * TODO:
- *  Fix readdir()'s exclude and array of supported image
- *  formats.
+ *
+ *  Fix regression: problem with files with spaces.
  *
  *  Maybe logout?
  *
