@@ -20,8 +20,6 @@
 /**
  * TODO:
  *
- *  Fix regression: problem with files with spaces.
- *
  *  Maybe logout?
  *
  *  Clean URLs a little by using '-' instead of spaces (%20)

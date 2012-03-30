@@ -153,7 +153,7 @@ class image
 			return false;
 		}
 
-		$suffix = pathinfo($file, PATHINFO_EXTENSION);
+		$suffix = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 		if (in_array($suffix, $this->supported_types)) {
 			$this->file = $file;
 			return true;
@@ -387,7 +387,7 @@ class image
 
 		// Create new image.
 		$cache_img = imagecreatetruecolor($width, $height);
-		$suffix = pathinfo($this->file, PATHINFO_EXTENSION);
+		$suffix = strtolower(pathinfo($this->file, PATHINFO_EXTENSION));
 		switch ($suffix)
 		{
 			case "jpg":
