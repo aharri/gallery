@@ -49,6 +49,8 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<hr/>
 	<div id="viewimage">
 		<img src="{/root/showimage/image}" alt="{/root/showimage/description}"/>
+		<br/>
+		<span><xsl:value-of select="/root/showimage/description"/></span>
 	</div> <!-- viewimage -->
 </xsl:template>
 

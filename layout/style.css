@@ -94,10 +94,18 @@ hr {
 
 #viewimage {
 	text-align: center;
+	margin: 5px 5px 30px 5px;
 }
 #viewimage img {
 	border: 15px solid #eee;
-	border-radius: 10px;
+	border-radius: 8px;
+	margin: 20px;
+}
+#viewimage span {
+	margin-top: 100px;
+	padding: 10px;
+	border: 8px solid #eee;
+	border-radius: 8px;
 }
 
 /**

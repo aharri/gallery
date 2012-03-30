@@ -26,9 +26,6 @@
  *
  *  Add lock-icon to directories that need authentication.
  *
- *  EXIF read support to extract user's comments or
- *  use the idea from tempy's gallery.
- *
  *  Clean URLs a little by using '-' instead of spaces (%20)
  *  and by hiding the extension of the file.
  *
@@ -491,6 +488,16 @@ class gallery
 				$thumbnail=substr($thumbnail, strlen(IMGDST1));
 				$xml->showimage->image='wrapper.php?big'.$thumbnail;
 				$xml->showimage->description=$file;
+				$exif = exif_read_data($this->images.'/'.$dir.'/'.$file);
+				if ($exif) {
+					if (isset($exif['COMPUTED']) && isset($exif['COMPUTED']['UserComment'])) {
+						$xml->showimage->description = $exif['COMPUTED']['UserComment'];
+					} else if (isset($exif['COMMENT'])) {
+						$xml->showimage->description = '';
+						foreach ($exif['COMMENT'] as $comment)
+							$xml->showimage->description .= $comment;
+					}
+				}
 			} break 1;
 		}
 		$img->compare_cache($this->images.'/'.$dir);
