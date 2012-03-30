@@ -87,6 +87,9 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 						<xsl:value-of select="name"/>
 					</a>
 					<span>
+						<xsl:if test="status='locked'">
+							<img class="locked" src="layout/icon_locked.png" alt="[locked]"/>&#160;
+						</xsl:if>
 						<xsl:value-of select="time"/>
 					</span>
 				</div> <!-- directory box -->

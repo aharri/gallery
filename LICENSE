@@ -1,8 +1,15 @@
-# Copyright (c) 2006,2007
-# Antti Harri <iku@openbsd.fi>
-#
 # Refer to the file headers to see (free) licensing
 # terms of files not written by me.
+#
+# Binary files:
+# file: copyright owner - license
+#
+# icon_locked.png: Copyright (c) 2012 Anne Lappalainen - ISC
+#
+# Everything else:
+#
+# Copyright (c) 2006,2007,2012
+# Antti Harri <iku@openbsd.fi>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above

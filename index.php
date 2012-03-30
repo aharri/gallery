@@ -24,8 +24,6 @@
  *
  *  Maybe logout?
  *
- *  Add lock-icon to directories that need authentication.
- *
  *  Clean URLs a little by using '-' instead of spaces (%20)
  *  and by hiding the extension of the file.
  *
@@ -414,6 +412,8 @@ class gallery
 					$xml->directories[$name]->name=$name;
 					$xml->directories[$name]->time=strftime('%Y-%m-%d %H:%M', $current['stats']['mtime']);
 					$xml->directories[$name]->link=empty($dir)?$name:"$dir/$name";
+					if (!validate::authenticate_dir(empty($dir)?$name:"$dir/$name"))
+						$xml->directories[$name]->status='locked';
 					if ($current['stats']['mtime'] > $time-($this->hiliting*24*3600)) {
 						$xml->directories[$name]->hilite='true';
 					}
