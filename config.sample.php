@@ -73,16 +73,21 @@
  */
 
 /*
-$sacl=array
-(
-	'album1/subalbum1/subalbum2'=>'foouser',
-	'album2/sub2'=>'foouser',
-	'album3'=>'baruser',
-);
-$sacl_users=array
-(
-	'foouser'	=> array('pw'=>'barpassword',	'can_upload'=>false),
-	'baruser	=> array('pw'=>'quxpass',	'can_upload'=>false),
-);
-*/
+ * First assign dir names to a username/group,
+ * this is case-SENSITIVE!
+ */
+//$sacl=array
+//(
+//	'album1/subalbum1/subalbum2'=>'foouser',
+//	'album2/sub2'=>'foouser',
+//	'album3'=>'baruser',
+//);
+
+/* Then assign a password for that username */
+//$sacl_users=array
+//(
+//	'foouser'	=> array('pw'=>'barpassword',	'can_upload'=>false),
+//	'baruser	=> array('pw'=>'quxpass',	'can_upload'=>false),
+//);
+
 ?>
