@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (c) 2007,2011 Antti Harri <iku@openbsd.fi>
+ * Copyright (c) 2007,2011,2013 Antti Harri <iku@openbsd.fi>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -289,7 +289,24 @@ class gallery
 		if (!$shadow_dir) {
 			$shadow_dir=$dirname;
 		}
-		$types = array('jpeg', 'jpg', 'gif', 'png');
+		$types = array(
+			'jpeg'	=> 'image',
+			'jpg'	=> 'image',
+			'gif'	=> 'image',
+			'png'	=> 'image',
+			'mp4'	=> 'video',
+			'm4a'	=> 'video',
+			'm4p'	=> 'video',
+			'm4b'	=> 'video',
+			'm4r'	=> 'video',
+			'm4v'	=> 'video',
+			'ogg'	=> 'video',
+			'ogv'	=> 'video',
+			'oga'	=> 'video',
+			'ogx'	=> 'video',
+			'spx'	=> 'video',
+			'opus'	=> 'video',
+		);
 
 		$directories=array();
 		$files=array();
@@ -308,9 +325,9 @@ class gallery
 				continue;
 			}
 			if (is_file("$shadow_dir/$foo")) {
-				foreach ($types as $cur) {
-					if (preg_match("/\.${cur}$/i", $foo)) {
-						$files[]=$foo;
+				foreach ($types as $ext => $mediatype) {
+					if (preg_match("/\.${ext}$/i", $foo)) {
+						$files[]=array('name'=>$foo, 'mediatype'=>$mediatype);
 						continue 2;
 					}
 				}
@@ -352,8 +369,10 @@ class gallery
 		$count=0;
 		$temp='';
 		$paths=explode('/', $dir);
+		$xml->statusline = new stdClass;
 		$xml->statusline->directories=array();
 		foreach ($paths as $path) {
+			$xml->statusline->directories[$count] = new stdClass;
 			$xml->statusline->directories[$count]->name=$path;
 			$xml->statusline->directories[$count++]->link=$temp.$path;
 			$temp.=$path.'/';
@@ -424,14 +443,24 @@ class gallery
 					if (!isset($files[$i]))
 						break 1;
 
-					$img->set_file("{$this->images}/$dir/{$files[$i]}");
-					$name=$files[$i];
-					$thumbnail=$img->generate_thumb();
-					// FIXME error checking
-					$thumbnail=substr($thumbnail, strlen(IMGDST2));
+					$img->set_file("{$this->images}/$dir/{$files[$i]['name']}");
+					$name=$files[$i]['name'];
+					if ($files[$i]['mediatype'] == "image") {
+						$thumbnail=$img->generate_thumb();
+						// FIXME error checking
+						$thumbnail=substr($thumbnail, strlen(IMGDST2));
+					}
+					$xml->thumbnails[$name] = new stdClass;
 					$xml->thumbnails[$name]->name=$name;
-					$xml->thumbnails[$name]->thumbnail='wrapper.php?small'.$thumbnail;
-					$xml->thumbnails[$name]->link=empty($dir)?$files[$i]:"$dir/{$files[$i]}";
+					$xml->thumbnails[$name]->mediatype=$files[$i]['mediatype'];
+					if ($files[$i]['mediatype'] == "video") {
+						$xml->thumbnails[$name]->width = $this->dim_small['width'];
+						$xml->thumbnails[$name]->height = $this->dim_small['height'];
+						$xml->thumbnails[$name]->thumbnail = $this->images.'/'.$dir.'/'.$name;
+					} else {
+						$xml->thumbnails[$name]->thumbnail='wrapper.php?small'.$thumbnail;
+					}
+					$xml->thumbnails[$name]->link=empty($dir)?$files[$i]['name']:"$dir/{$files[$i]['name']}";
 
 				}
 			} break 1;
@@ -445,17 +474,20 @@ class gallery
 				}
 
 				list(/*$directories*/, $files) = $temp;
-				$index = array_search($file, $files);
+				for ($index=0; ; $index++)
+					if ($file == $files[$index]['name'])
+						break;
 
 				for ($i=$index-1; $i<$index+2; $i++)
 				{
-					if (!isset($files[$i]))
+					if (!isset($files[$i]['name']))
 						continue 1;
 
-					$link = empty($dir)?$files[$i]:"$dir/{$files[$i]}";
+					$link = empty($dir)?$files[$i]['name']:"$dir/{$files[$i]['name']}";
 
-					$xml->paging[$i]->name=$files[$i];
-					if ($files[$i]!=$files[$index]) {
+					$xml->paging[$i] = new stdClass;
+					$xml->paging[$i]->name=$files[$i]['name'];
+					if ($files[$i]['name']!=$files[$index]['name']) {
 						if ($i == $index-1) {
 							$xml->paging[$i]->lid='link_previous';
 						} else {
@@ -474,26 +506,37 @@ class gallery
 					return false;
 				}
 
-				$img->set_thumbnail_maximums($this->dim_big['width'], $this->dim_big['height']);
-				$img->set_thumbnail_dir($this->gallery_big.'/'.$dir);
-				$img->set_file($this->images.'/'.$dir.'/'.$file);
-				$thumbnail=$img->generate_thumb();
-				if ($thumbnail === FALSE) {
-					$_logger->log('Failed to create thumbnail', 'error');
-					break 1;
-				}
-				// FIXME error checking
-				$thumbnail=substr($thumbnail, strlen(IMGDST1));
-				$xml->showimage->image='wrapper.php?big'.$thumbnail;
-				$xml->showimage->description=$file;
-				$exif = exif_read_data($this->images.'/'.$dir.'/'.$file);
-				if ($exif) {
-					if (isset($exif['COMPUTED']) && isset($exif['COMPUTED']['UserComment'])) {
-						$xml->showimage->description = $exif['COMPUTED']['UserComment'];
-					} else if (isset($exif['COMMENT'])) {
-						$xml->showimage->description = '';
-						foreach ($exif['COMMENT'] as $comment)
-							$xml->showimage->description .= $comment;
+				if ($files[$index]['mediatype'] == "video") {
+					// Without set_thumbnail_dir $img->compare_cache will error
+					$img->set_thumbnail_dir($this->gallery_big.'/'.$dir);
+					$xml->showvideo = new stdClass;
+					$xml->showvideo->video = $this->images.'/'.$dir.'/'.$file;
+					$xml->showvideo->width = $this->dim_big['width'];
+					$xml->showvideo->height = $this->dim_big['height'];
+					$xml->showvideo->description=$file;
+				} else {
+					$img->set_thumbnail_maximums($this->dim_big['width'], $this->dim_big['height']);
+					$img->set_thumbnail_dir($this->gallery_big.'/'.$dir);
+					$img->set_file($this->images.'/'.$dir.'/'.$file);
+					$thumbnail=$img->generate_thumb();
+					if ($thumbnail === FALSE) {
+						$_logger->log('Failed to create thumbnail', 'error');
+						break 1;
+					}
+					// FIXME error checking
+					$thumbnail=substr($thumbnail, strlen(IMGDST1));
+					$xml->showimage = new stdClass;
+					$xml->showimage->image='wrapper.php?big'.$thumbnail;
+					$xml->showimage->description=$file;
+					$exif = exif_read_data($this->images.'/'.$dir.'/'.$file);
+					if ($exif) {
+						if (isset($exif['COMPUTED']) && isset($exif['COMPUTED']['UserComment'])) {
+							$xml->showimage->description = $exif['COMPUTED']['UserComment'];
+						} else if (isset($exif['COMMENT'])) {
+							$xml->showimage->description = '';
+							foreach ($exif['COMMENT'] as $comment)
+								$xml->showimage->description .= $comment;
+						}
 					}
 				}
 			} break 1;
@@ -508,7 +551,9 @@ class gallery
 	function output()
 	{
 		$xsl = new XSLTProcessor();
-		$xsl->importStyleSheet(DOMDocument::load('layout/site.xsl'));
+		$doc = new DOMDocument();
+		$doc->load('layout/site.xsl');
+		$xsl->importStyleSheet($doc);
 
 		$dom = new DOMDocument();
 		$dom = $this->xmlroot->returnDom();

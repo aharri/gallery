@@ -61,6 +61,22 @@ switch ($suffix)
 	case "gif":
 		header("Content-type: image/gif");
 	break;
+	case "mp4":
+	case "m4a":
+	case "m4p":
+	case "m4b":
+	case "m4r":
+	case "m4v":
+		header("Content-type: video/mp4");
+	break;
+	case "ogg":
+	case "ogv":
+	case "oga":
+	case "ogx":
+	case "spx":
+	case "opus":
+		header("Content-type: video/ogg");
+	break;
 	default:
 		die();
 }

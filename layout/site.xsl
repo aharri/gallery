@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *
- * Copyright (c) 2007 Antti Harri <iku@openbsd.fi>
+ * Copyright (c) 2007,2013 Antti Harri <iku@openbsd.fi>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -34,7 +34,16 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 			<xsl:for-each select="/root/thumbnails">
 				<div>
 					<a href="?{link}">
-						<img src="{thumbnail}" alt="{link}"/>
+						<xsl:choose>
+							<xsl:when test="mediatype = 'video'">
+								<video width="{width}" height="{height}">
+									<xsl:attribute name="src"><xsl:value-of select="thumbnail"/></xsl:attribute>
+								</video>
+							</xsl:when>
+							<xsl:otherwise>
+								<img src="{thumbnail}" alt="{link}"/>
+							</xsl:otherwise>
+						</xsl:choose>
 					</a>
 					<p>
 						<xsl:value-of select="name"/>
@@ -43,6 +52,19 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 			</xsl:for-each>
 		</div> <!-- thumbnails -->
 	</xsl:if>
+</xsl:template>
+
+<xsl:template name="viewvideo">
+	<hr/>
+	<div id="viewvideo">
+		<video width="{/root/showvideo/width}" height="{/root/showvideo/height}">
+			<xsl:attribute name="src"><xsl:value-of select="/root/showvideo/video"/></xsl:attribute>
+			<xsl:attribute name="controls"></xsl:attribute>
+			Your browser does not support the video tag.
+		</video>
+		<br/>
+		<span><xsl:value-of select="/root/showvideo/description"/></span>
+	</div> <!-- viewvideo -->
 </xsl:template>
 
 <xsl:template name="viewimage">
@@ -193,6 +215,10 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 				<xsl:call-template name="pagination"/>
 
 				<xsl:choose>
+					<xsl:when test="/root/showvideo">
+						<xsl:call-template name="viewvideo"/>
+					</xsl:when>
+
 					<xsl:when test="/root/showimage">
 						<xsl:call-template name="viewimage"/>
 					</xsl:when>

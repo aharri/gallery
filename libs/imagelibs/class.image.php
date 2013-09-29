@@ -25,6 +25,8 @@ require_once('class.file.php');
  *
  * Processes image files, generates thumbnails
  * and caches them.
+ *
+ * BUGS: thumbnail_dir gets a default value that some methods use
  */
 class image
 {
