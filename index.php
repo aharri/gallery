@@ -426,6 +426,7 @@ class gallery
 				foreach ($directories as $current)
 				{
 					$name=$current['name'];
+					$xml->directories[$name] = new stdClass;
 					$xml->directories[$name]->name=$name;
 					$xml->directories[$name]->time=strftime('%Y-%m-%d %H:%M', $current['stats']['mtime']);
 					$xml->directories[$name]->link=empty($dir)?$name:"$dir/$name";
