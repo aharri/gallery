@@ -294,18 +294,22 @@ class gallery
 			'jpg'	=> 'image',
 			'gif'	=> 'image',
 			'png'	=> 'image',
+			/* MPEG-4 video */
 			'mp4'	=> 'video',
 			'm4a'	=> 'video',
 			'm4p'	=> 'video',
 			'm4b'	=> 'video',
 			'm4r'	=> 'video',
 			'm4v'	=> 'video',
+			/* OGG video */
 			'ogg'	=> 'video',
 			'ogv'	=> 'video',
 			'oga'	=> 'video',
 			'ogx'	=> 'video',
 			'spx'	=> 'video',
 			'opus'	=> 'video',
+			/* WebM Video */
+			'webm'	=> 'video'
 		);
 
 		$directories=array();

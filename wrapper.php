@@ -77,6 +77,9 @@ switch ($suffix)
 	case "opus":
 		header("Content-type: video/ogg");
 	break;
+	case "webm":
+		header("Content-type: video/webm");
+	break;
 	default:
 		die();
 }
