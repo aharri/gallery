@@ -25,6 +25,11 @@
  *  Clean URLs a little by using '-' instead of spaces (%20)
  *  and by hiding the extension of the file.
  *
+ *  Check out the layout arranges thumbnails incorrectly.
+ *
+ *  For video support:
+ *   - make a thumbnail of the video for "browse" page
+ *   - use wrapper for videos
  */
 require_once('libs/class.validate.php');
 require_once('libs/class.acms_xml.php');
