@@ -466,7 +466,7 @@ class gallery
 					if ($files[$i]['mediatype'] == "video") {
 						$xml->thumbnails[$name]->width = $this->dim_small['width'];
 						$xml->thumbnails[$name]->height = $this->dim_small['height'];
-						$xml->thumbnails[$name]->thumbnail = $this->images.'/'.$dir.'/'.$name;
+						$xml->thumbnails[$name]->thumbnail = 'wrapper.php?video'.'/'.$dir.'/'.$name;
 					} else {
 						$xml->thumbnails[$name]->thumbnail='wrapper.php?small'.$thumbnail;
 					}
@@ -520,7 +520,7 @@ class gallery
 					// Without set_thumbnail_dir $img->compare_cache will error
 					$img->set_thumbnail_dir($this->gallery_big.'/'.$dir);
 					$xml->showvideo = new stdClass;
-					$xml->showvideo->video = $this->images.'/'.$dir.'/'.$file;
+					$xml->showvideo->video = 'wrapper.php?video'.'/'.$dir.'/'.$file;
 					$xml->showvideo->width = $this->dim_big['width'];
 					$xml->showvideo->height = $this->dim_big['height'];
 					$xml->showvideo->description=$file;

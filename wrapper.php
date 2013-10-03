@@ -2,7 +2,7 @@
 
 /**
  *
- * Copyright (c) 2007 Antti Harri <iku@openbsd.fi>
+ * Copyright (c) 2007,2013 Antti Harri <iku@openbsd.fi>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -37,9 +37,13 @@ if (strpos($dirname, '/') !== FALSE)
 	$mode=substr($dirname, 0, strpos($dirname, '/'));
 $dirname=urldecode(substr($dirname, strlen($mode)+1));
 
-if($mode!='big'&&$mode!='small')
-	die('Invalid mode');
-$from=($mode=='big')?IMGDST1:IMGDST2;
+switch ($mode)
+{
+	case "small":	$from = IMGDST2; break;
+	case "big": 	$from = IMGDST1; break;
+	case "video":	$from = IMGSRC; break;
+	default: die('Invalid mode');
+}
 
 session_start();
 
@@ -80,8 +84,7 @@ switch ($suffix)
 	case "webm":
 		header("Content-type: video/webm");
 	break;
-	default:
-		die();
+	default: die();
 }
 
 // This part has been adapted from AngelineCMS
