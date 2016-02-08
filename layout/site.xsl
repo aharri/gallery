@@ -37,6 +37,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 						<xsl:choose>
 							<xsl:when test="mediatype = 'video'">
 								<video width="{width}" height="{height}">
+<!-- 									<xsl:attribute name="preload">none</xsl:attribute> -->
 									<xsl:attribute name="src"><xsl:value-of select="thumbnail"/></xsl:attribute>
 								</video>
 							</xsl:when>
